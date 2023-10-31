@@ -1,0 +1,16 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+d=pd.read_csv("magic04.data") #data reading from the magic04.data
+d_matrix= d.values # making the data as matrix
+d_labels=d_matrix[:,-1]# Making last column as label
+data_matrix=d_matrix[:, :-1] # Excluding the categorical data from the data set
+data_matrix_array = np.array(data_matrix) # converting matrix into np array
+print("Data Matrix:",data_matrix_array)
+data_mean=np.mean(data_matrix_array, axis=0) # Finding the mean for the matrix
+data_std=np.std(data_matrix_array,axis=0, dtype = np.float64) # Finding the standard deviation
+z_norm=(data_matrix_array-data_mean)/data_std # Normalized Vector
+z_norm_trans=z_norm.transpose() #Transpose of z_transpose
+#print(len(z_norm))
+print("Z_Normalizesd_Matrix:",z_norm)
