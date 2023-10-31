@@ -1,0 +1,9 @@
+covariance_matrix=(np.dot(z_norm_trans,z_norm))/(len(z_norm)-1)
+covariance_matrix = covariance_matrix.astype(np.float64)
+print(covariance_matrix)
+covariance_matrix_verif=np.cov(z_norm.astype(float), rowvar=False,bias=False)
+print(covariance_matrix_verif)
+if np.allclose(covariance_matrix, covariance_matrix_verif, atol=1e-6):
+    print("The covariance matrices are  equal.")
+else:
+    print("The covariance matrices are not equal.")
