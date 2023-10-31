@@ -1,0 +1,29 @@
+dominant_eigen_vectors_trans=dominant_eigen_vectors.transpose()
+squared_error = np.sum((z_norm - np.dot(projected_data,dominant_eigen_vectors_trans))**2)
+mean_squared_error=squared_error/z_norm.shape[0]
+
+print("Mean Squared Error:", mean_squared_error)
+sum_of_eigen_values_except_first_two = np.sum(eigen_values[2:])
+print("Sum of Eigenvalues (except first two):", sum_of_eigen_values_except_first_two)
+projected_data_for_pca = np.column_stack((projected_data, d_labels))
+print(projected_data_for_pca)
+X_pca = projected_data_for_pca[:, :-1]  # Extract principal components
+labels = projected_data_for_pca[:, -1]
+sns.scatterplot(x=X_pca[:, 0], y=X_pca[:, 1], hue=labels, palette='viridis')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('PCA Plot with Labels')
+plt.legend(title='Labels')
+plt.show()
+explained_variance_ratio = np.cumsum(eigen_values) / np.sum(eigen_values)
+
+    # Find the number of principal components to preserve target_variance
+num_components = np.argmax(explained_variance_ratio >= 0.95) + 1
+
+    # Select the top principal components
+principal_components = eigen_vectors[:, :num_components]
+
+
+new_data = np.dot(z_norm, principal_components)
+print("Coordinates of the first 10 data points in the new basis:")
+print(new_data[:10])
