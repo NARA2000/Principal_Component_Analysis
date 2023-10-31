@@ -1,0 +1,28 @@
+no_of_iterations=10000
+threshold_limit=0.000001
+r_value=covariance_matrix.shape[0]   
+eigen_vector=np.random.rand(r_value) # Assuming an eigen vector of dimension as covariance matrix
+for _ in range(no_of_iterations):
+    assumed_eigen_vector=eigen_vector
+    dot_product=np.dot(covariance_matrix,eigen_vector) # matrix multiplication of the covariance matrix and eigen vector
+    #max_abs_value=np.argmax(np.abs(dot_product)) # maximum absolute values index in dot_product
+    #scaling_factor=np.linalg.norm(dot_product) # getting scaling factor to normalize
+    
+    eigen_vector=dot_product/np.linalg.norm(dot_product) #Normalizing the assumed eigen vector
+    if np.linalg.norm(eigen_vector-assumed_eigen_vector)<threshold_limit:    # checking for convergence
+        break
+eigen_vector/=np.linalg.norm(eigen_vector)
+eigen_vector_trans=eigen_vector.transpose()
+eigen_value=np.dot(eigen_vector_trans,np.dot(covariance_matrix,eigen_vector))
+
+print("Dominant Eigenvalue:", eigen_value)
+print("Dominant Eigenvector:", eigen_vector)
+eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
+eigen_value_verif=max(eigen_values)
+#print(eigen_value_verif)
+print(eigen_values)
+print(eigen_vectors)
+if np.allclose(eigen_value,eigen_value_verif, atol=1e-6):
+    print("The Eigen Values are  equal.")
+else:
+    print("The Eigen Values are not equal.")
