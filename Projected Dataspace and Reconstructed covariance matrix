@@ -1,0 +1,23 @@
+eigen_values_sorted_indices = np.argsort(eigen_values)[::-1]
+eigen_values = eigen_values[eigen_values_sorted_indices]
+eigen_vectors = eigen_vectors[:, eigen_values_sorted_indices]
+
+# Select the first two dominant eigenvectors
+dominant_eigen_vectors = eigen_vectors[:, :2]
+
+# Project data points onto the subspace spanned by the first two dominant eigenvectors
+projected_data = np.dot(z_norm, dominant_eigen_vectors)
+
+# Compute the variance of the projected data points
+variance_in_projected_space = np.var(projected_data, axis=0)
+
+# Print the variance of the data points in the projected subspace
+print("Variance in Projected Subspace:", variance_in_projected_space)
+#print(eigen_values)
+print(projected_data.shape)
+eigen_vectors_trans=eigen_vectors.transpose()
+reconstructed_covariance_matrix = np.dot(eigen_vectors, np.dot(np.diag(eigen_values), eigen_vectors_trans))
+
+# Print the covariance matrix in its eigen-decomposition form (UΛU^T)
+print("Covariance Matrix in Eigen-Decomposition Form:")
+print(reconstructed_covariance_matrix)
